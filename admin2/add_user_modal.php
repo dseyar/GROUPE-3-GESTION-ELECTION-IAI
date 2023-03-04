@@ -1,0 +1,94 @@
+<div class="modal fade" id="add_user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+											<h4 class="modal-title" id="myModalLabel">         
+												<div class="panel panel-primary">
+													<div class="panel-heading">
+														<center>Systeme d'attribution des étudiants</center>
+													</div>    
+												</div>
+											</h4>
+										</div>
+										
+										
+                                        <div class="modal-body">
+										<form method = "post" enctype = "multipart/form-data">	
+											<div class="form-group">
+												<label>NOm Utilisateur</label>
+												<input class ="form-control" type = "text" name = "username" placeholder = "Username" required="true">
+													
+											</div>
+
+										
+											<div class="form-group">
+												<label>MOT-DE-PASSE</label>
+													<input class="form-control" type ="text" name = "password" placeholder="Password" required="true">
+											</div>
+											<div class="form-group">
+												<label>Nom</label>
+													<input class="form-control" type ="text" name = "firstname" placeholder="Firstname" required="true">
+											</div>
+											<div class="form-group">
+												<label>Prenom</label>
+													<input class="form-control"  type = "text" name = "lastname" placeholder="Please enter lastname" required="true">
+											</div>
+											
+											<div class="form-group">
+												<label>Numéro</label>
+													<input class="form-control"  type = "number" name = "Phone" placeholder="Please enter contact number" required="true">
+											</div>
+
+											<div class="form-group">
+												<label>Email</label>
+													<input class="form-control"  type = "email" name = "email" placeholder="Please enter email address">
+											</div>
+									
+												 <button name = "ok" type="submit" class="btn btn-primary">Sauvegarder</button>
+							  
+										 </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                           
+                                        </div>
+										
+										</form>
+										
+							<?php 
+										
+								require_once 'dbcon.php';
+								if (isset($_POST['ok'])){
+								
+								$username=$_POST['username'];
+								$password=$_POST['password'];
+								$firstname=$_POST['firstname'];
+								$lastname=$_POST['lastname'];
+								$Phone=$_POST['Phone'];
+								$email=$_POST['email'];
+										
+		
+		
+								$query = $conn->query("SELECT * FROM users WHERE username='$username'") or die ($conn->error);
+								$count1 = $query->num_rows;
+
+								if ($count1  > 0){ 
+							?>
+										<script>
+											alert("User Already Exist");
+										</script>
+							<?php
+								}
+								else{
+									$conn->query("INSERT INTO users(username,password,firstname,lastname,Phone,email) VALUES('$username','$password','$firstname','$lastname','$Phone','$email')");
+									header('location:user.php');
+							?>
+									<script>
+										alert('User Data Successfully Save');
+									</script>
+							<?php 
+									}
+								} 
+							?>	
+                                    </div>
+                                </div>
+                            </div>
